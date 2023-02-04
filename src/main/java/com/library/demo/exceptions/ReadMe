@@ -1,0 +1,24 @@
+SPRİNG initializer sitesi start.spring.io
+Project maven
+Language java
+Spring boot 2.7.7
+Packaging jar
+DEPENDENCIES
+- Spring web ->  Apache Tomcatı main methoda gömülü server olarak getiriyor
+Validation -> not null not empty gibi entity leri girmemize ve constraint oluşturabilmemize yarıyor
+Spring DevTools -> çalışan serverımızda kod üzerinde yaptığımız değişikliklerin
+    serverı kapatıp açmaya gerek olmadan çalışmasına yarıyor
+Spring Boot Actuator -> Serverimizin anlık sağlığını düzgün çalışıp çalışmadığını
+    görmemizi sağlıyor server durumunu monitörlüyor.
+Spring Data JPA -> java methodları ile birçok işleme erişmemizi sağlıyor
+Postgre SQL-> Database imizin bağımlılığını ekliyoruz.
+Lombok-> @Getter @Data gibi kolaylaştırıcı annotationlara erişimimizi sağlıyor
+Spring boot version numarasını 2.7.4 yaptık pom üzerinden
+İndirdiğimiz dosyayı unzip ettikten sonra intellij üzerinden File>Open diyerek
+    indirdiğimiz unzip yaptığımız dosyamızı açıyoruz.
+Spring_boot maven plugin hata verirse altına bunu yapıştırıyoruz
+
+<version>${project.parent.version}</version>
+
+Spring_boot umuzla uyumlu olacak şekilde db oluşturuyoruz.
+Java classımızın altında main method bulunan bir method default olarak geliyor ve tomcat içerisinde gömülü..(@SpringBootApplication annnotationu ile )
