@@ -27,6 +27,10 @@ public class Book {
     private String name;
 
     @NotBlank(message = "Please don't use space")
+    @NotNull(message = "writer can not be empty")
+    private String writer;
+
+    @NotBlank(message = "Please don't use space")
     @NotNull(message = "Type can not be empty")
     private String type;
 
