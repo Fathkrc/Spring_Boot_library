@@ -3,7 +3,8 @@ package com.library.demo.controller;
 import com.library.demo.DTO.BookDTO;
 import com.library.demo.domain.Book;
 import com.library.demo.service.BookService;
-import io.micrometer.core.instrument.binder.http.HttpRequestTags;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +31,7 @@ verimizin bulunamaması gibi durumları service katında handle ediyoruz control
 yönlendirmemizi sağlıyor.
 Mesela update methodumuzu yalnızca update ile çağırdık ve parametre olarak BookDTO proxy classımızı gönderdik
 */
+    Logger logger= LoggerFactory.getLogger(Controller.class);
     @Autowired
     BookService service;
 
@@ -122,5 +125,14 @@ public ResponseEntity<Map<String,String>> deleteBook(@PathVariable("id") Long id
 
     }
 
+    @GetMapping("welcome")
+    public String welcome(HttpServletRequest request){// http://localhost:8080/hi
+    logger.warn("------------------------ Welcome {}",request.getServletPath());
+    //üstteki warn intelijdeki konsolumuza gidiyor
+    return "You are welcome to Library";
+    //süslü parantez içine parametre gireceğiz
+        // getServletPath ile servletin yolunu görmek istiyoruz
+    // HttpServletRequest interface i gelen requeste ulaşabilmemizi sağlıyor
+    }
 
 }

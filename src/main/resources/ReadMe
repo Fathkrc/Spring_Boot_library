@@ -21,4 +21,22 @@ Spring_boot maven plugin hata verirse altına bunu yapıştırıyoruz
 <version>${project.parent.version}</version>
 
 Spring_boot umuzla uyumlu olacak şekilde db oluşturuyoruz.
-Java classımızın altında main method bulunan bir method default olarak geliyor ve tomcat içerisinde gömülü..(@SpringBootApplication annnotationu ile )
+Java classımızın altında main method bulunan bir method default olarak geliyor ve
+tomcat içerisinde gömülü..(@SpringBootApplication annnotationu ile )
+
+Log İşlemleri
+Trace => Uygulamanın davranışı işe ilgili tüm bilgiler gösterilir !!!EN DÜŞÜK SEVİYE!!!
+Debug => Debug seviyesinde gösterilir
+Info => Sistemimizde anlık olarak ne olduğunu hangi işlem yapıldığını gösterir
+Warn => Kritik olmasa da uygulamamızı etkileyen uyarılar gösterilir
+Error => Kritik seviyedeki uyarıları gösterir. !!!EN YÜKSEK SEVİYE!!!
+
+Spring FrameWork Actuator
+
+management:   # actuator
+  endpoints:
+    web:
+      exposure:
+        include: ['health','loggers','env','beans']
+yml dosyasına eklediğimiz bu yapı http://localhost:8080/actuator/beans health loggers gibi
+etkenlere ulaşabiliyoruz

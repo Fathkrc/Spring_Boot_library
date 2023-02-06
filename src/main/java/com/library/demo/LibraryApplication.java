@@ -9,7 +9,7 @@ public class LibraryApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LibraryApplication.class, args);
-		//Book book=new Book()
+		//Book book=new Book(12,)
 	}
 
 }

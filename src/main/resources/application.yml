@@ -1,7 +1,7 @@
 server:
   port: 8080
 error:
-  include-binding-errors: never
+  include-binding-errors: always
   include-message: always
   include-stacktrace: never
 
@@ -18,4 +18,19 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       '[hibernate.format_sql]': true
+logging:   #logging
+  file:
+    name: log/studentapp.log
+  pattern:
+    file: "%d %-5level [%thread] %logger:%msg%n"
+  level:
+    '[org.springframework.web]': WARN
+    '[org.hibernate]': INFO
+    '[com.library.demo]': INFO
+
+management:   # actuator
+  endpoints:
+    web:
+      exposure:
+        include: ['health','loggers','env','beans']
 

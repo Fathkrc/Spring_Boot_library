@@ -1,5 +1,6 @@
 package com.library.demo.DTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.library.demo.domain.Book;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class BookDTO {
 
     @NotBlank(message = "Please don't use space")
     @NotNull(message = "Type can not be empty")
+    @JsonProperty("bookType")//json formatında giriş ismini değiştirdik db de ve java da isim aynı
     private String type;
 
     @NotBlank(message = "Please don't use space")

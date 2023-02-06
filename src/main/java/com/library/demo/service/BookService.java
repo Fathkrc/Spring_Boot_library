@@ -85,5 +85,7 @@ public class BookService {
         return  repistory.findBookDtoById(id).orElseThrow(
                 ()-> new ResourceNotFoundExc("Book not found with"+id+" id")
         );
+
     }
+
 }
