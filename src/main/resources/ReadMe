@@ -40,3 +40,5 @@ management:   # actuator
         include: ['health','loggers','env','beans']
 yml dosyasına eklediğimiz bu yapı http://localhost:8080/actuator/beans health loggers gibi
 etkenlere ulaşabiliyoruz
+
+SECURİTY bağımlılığımızı da ekledik ve yml dosyamızda username ve password u default oluşturduk.

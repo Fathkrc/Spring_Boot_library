@@ -128,7 +128,7 @@ public ResponseEntity<Map<String,String>> deleteBook(@PathVariable("id") Long id
     @GetMapping("welcome")
     public String welcome(HttpServletRequest request){// http://localhost:8080/hi
     logger.warn("------------------------ Welcome {}",request.getServletPath());
-    //üstteki warn intelijdeki konsolumuza gidiyor
+    //üstteki warn intelijdeki konsolumuza gidiyor.
     return "You are welcome to Library";
     //süslü parantez içine parametre gireceğiz
         // getServletPath ile servletin yolunu görmek istiyoruz
