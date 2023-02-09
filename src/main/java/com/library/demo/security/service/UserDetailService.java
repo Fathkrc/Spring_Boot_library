@@ -3,7 +3,6 @@ package com.library.demo.security.service;
 import com.library.demo.domain.Role;
 import com.library.demo.domain.User;
 import com.library.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,12 +16,17 @@ import java.util.Set;
 @Service
 public class UserDetailService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepo;
+//User ımızı bu classta Springin istediği tarza  yani UserDetailService olarak tanıtıp Springe okunur duruma getirdik
+    private final UserRepository userRepo;
+
+    public UserDetailService(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
        User user=userRepo.findByUserName(userName).orElseThrow(
-               ()->  new UsernameNotFoundException("username not found")
+               ()->  new UsernameNotFoundException("username not found "+userName)
        );
        if(user!=null) {
            return new org.springframework.security.core.userdetails.User(user.getUserName(),

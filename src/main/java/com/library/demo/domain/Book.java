@@ -1,6 +1,7 @@
 package com.library.demo.domain;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.Constraint;
@@ -19,8 +20,9 @@ import javax.validation.constraints.Pattern;
 public class Book {
     @Id
     @Setter(AccessLevel.NONE)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    @GeneratedValue(generator = "UUID")// hash id üretiyor altta da nasıl çalışacağı set ediliyor
+    @GenericGenerator(name= "UUID",strategy = "org.hibernate.id.UUIDGenerator")
+    private String Id;
 
     @NotBlank(message = "Please don't use space")
     @NotNull(message = "name can not be empty")

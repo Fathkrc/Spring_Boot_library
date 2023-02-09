@@ -5,13 +5,13 @@ import com.library.demo.domain.Book;
 import com.library.demo.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -30,10 +30,13 @@ yapımız katman katman ilerliyor .
 verimizin bulunamaması gibi durumları service katında handle ediyoruz controller yalnızca endPointleri karşılayıp
 yönlendirmemizi sağlıyor.
 Mesela update methodumuzu yalnızca update ile çağırdık ve parametre olarak BookDTO proxy classımızı gönderdik
-*/
-    Logger logger= LoggerFactory.getLogger(Controller.class);
-    @Autowired
-    BookService service;
+*/ Logger logger= LoggerFactory.getLogger(Controller.class);
+
+   private final BookService service;
+
+    public Controller(BookService service) {
+        this.service = service;
+    }
 
     @GetMapping
     @RequestMapping("/{id}")
@@ -43,6 +46,8 @@ public ResponseEntity<Book> getBookById(@PathVariable("id")  Long id){
     }
 
 @GetMapping
+@PreAuthorize("hasRole('ROLE_ADMIN')")//ADMIN e yetki veriyoruz bu methodu kullanmak için
+//ROLE_ADMIN olmasına ragmen ADMIN kısmını anlıyor spring
 public ResponseEntity<List<Book>> getAll(){
     List<Book>list =service.getAllBooks();
     return ResponseEntity.ok(list);

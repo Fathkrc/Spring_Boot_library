@@ -4,19 +4,21 @@ import com.library.demo.DTO.BookDTO;
 import com.library.demo.domain.Book;
 import com.library.demo.exceptions.ConflictException;
 import com.library.demo.exceptions.ResourceNotFoundExc;
-import com.library.demo.repository.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.library.demo.repository.BookRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
 @Service
 public class BookService {
-    @Autowired
-    Repository repistory;
+
+    private final BookRepository repistory;
+
+    public BookService(BookRepository repistory) {
+        this.repistory = repistory;
+    }
 
     public List<Book> getAllBooks() {
         List<Book> list = repistory.findAll();

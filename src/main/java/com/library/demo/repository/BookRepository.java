@@ -2,16 +2,16 @@ package com.library.demo.repository;
 
 import com.library.demo.DTO.BookDTO;
 import com.library.demo.domain.Book;
-import lombok.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@org.springframework.stereotype.Repository
-public interface Repository extends JpaRepository<Book , Long> {
+@Repository
+public interface BookRepository extends JpaRepository<Book , Long> {
 
     boolean existsByName(String name);
 
