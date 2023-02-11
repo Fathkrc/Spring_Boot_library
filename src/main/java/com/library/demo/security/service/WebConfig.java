@@ -2,9 +2,9 @@ package com.library.demo.security.service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,38 +14,44 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity//Web security sistemimizi aktif hale getiriyor
-@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true,jsr250Enabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 //methodları hangi rollerin kullanabileceğini set edebilmek için
 public class WebConfig  extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
 
+
     public WebConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .authorizeHttpRequests().
+                antMatchers(HttpMethod.GET,"/library/**").hasRole("ROLE_ADMIN").
+                antMatchers(HttpMethod.DELETE,"/library/**").hasRole("ROLE_ADMIN").
+                antMatchers(HttpMethod.PUT,"/library/**").hasRole("ROLE_ADMIN")
+                .and().authorizeHttpRequests()
+                .antMatchers( "index.html", "/css/*", "/js/*", "/register","/login").permitAll()
+                .and().httpBasic();
+
+        /*
         http.csrf().disable().
                 authorizeHttpRequests().
-                antMatchers("/", "index.html", "/css/*", "/js/*", "/register").permitAll().
-                and().
-                authorizeRequests().antMatchers("/students/**").hasRole("ADMIN").
+                antMatchers("/","index.html","/css/*","/js/*").permitAll().
                 anyRequest().
                 authenticated().
                 and().
-                httpBasic();  // Basic Auth
-        // yukarıda belirttiğimiz endpointlerle gelen requestlere her halukarda izin veriyoruz
-        //diğer her türlü endpointi Authoritize ediyoruz
+                httpBasic();
+        getpointimizi csrf disable ile güvenli hale getirdik ve crud operasyonlarımızın yetkiye göre
+        girişi sınırlandırdık permit all ile register ve belli endpoinlere tüm kullanıcıların ulaşabilmesini sağladık
+
+         */
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
-
-    }
 
     @Bean
     public DaoAuthenticationProvider authProvider() {
@@ -59,5 +65,10 @@ public class WebConfig  extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider());
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder(10);
+
     }
 }

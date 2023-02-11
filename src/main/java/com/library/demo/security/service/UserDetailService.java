@@ -1,6 +1,5 @@
 package com.library.demo.security.service;
 
-import com.library.demo.domain.Role;
 import com.library.demo.domain.User;
 import com.library.demo.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,10 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserDetailService implements UserDetailsService {
@@ -31,19 +28,13 @@ public class UserDetailService implements UserDetailsService {
        if(user!=null) {
            return new org.springframework.security.core.userdetails.User(user.getUserName(),
                    user.getPassword(),
-                   setAuthorities(user.getRoles()));
+                   Stream.of(user.getUserRole()).
+                           map(t-> new SimpleGrantedAuthority(t.name())).collect(Collectors.toList()));
        }else{
            throw new UsernameNotFoundException("username not found");
        }
     }
 
-    private List<SimpleGrantedAuthority> setAuthorities(Set<Role> roles) {
-        List<SimpleGrantedAuthority> list = new ArrayList<>();
-        for (Role w:roles) {
-            list.add(new SimpleGrantedAuthority(w.getName().name()));
-        }
- // bu methotta User'ımızın String tipinde olan Role unu Springe tanıtarak GrantedAuthorities e çevirdik
-        return list;
-    }
+
 
 }

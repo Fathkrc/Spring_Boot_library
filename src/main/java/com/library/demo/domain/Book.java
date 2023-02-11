@@ -17,6 +17,7 @@ import javax.validation.constraints.Pattern;
 @Getter
 @Setter
 @Table(name = "Library")
+@Data
 public class Book {
     @Id
     @Setter(AccessLevel.NONE)
@@ -40,5 +41,6 @@ public class Book {
     private String publishYear;
 
     private Long numberOfPage;
+
 
 }

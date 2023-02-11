@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book , Long> {
+public interface BookRepository extends JpaRepository<Book , String> {
 
     boolean existsByName(String name);
 
@@ -27,7 +27,7 @@ public interface BookRepository extends JpaRepository<Book , Long> {
 
     //kitapları türüne göre çağıran bir method oluşturduk.
     @Query("SELECT new com.library.demo.DTO.BookDTO(s) FROM Book s WHERE s.id=:id")
-    Optional<BookDTO> findBookDtoById(@Param("id") Long id);
+    Optional<BookDTO> findBookDtoById(@Param("id") String id);
     //id ile BookDto objesi gönderdik :D:D
     //JPQL içerisinde newleme işlemi yaptık BookDTO constr. içerisine idli Book objemizi gönderdik
 

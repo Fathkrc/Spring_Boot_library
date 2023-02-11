@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/library/")
 public class Controller {
     /*
 Yalnızca Service katımızı bağımlı hale getirdik repository ile direkt bir bağ yok .
@@ -40,19 +40,19 @@ Mesela update methodumuzu yalnızca update ile çağırdık ve parametre olarak 
 
     @GetMapping
     @RequestMapping("/{id}")
-public ResponseEntity<Book> getBookById(@PathVariable("id")  Long id){
+public ResponseEntity<Book> getBookById(@PathVariable("id")  String id){
        Book book= service.findById(id);
         return ResponseEntity.ok(book);
     }
 
 @GetMapping
-@PreAuthorize("hasRole('ROLE_ADMIN')")//ADMIN e yetki veriyoruz bu methodu kullanmak için
+//@PreAuthorize("hasRole('ADMIN')")//ADMIN e yetki veriyoruz bu methodu kullanmak için
 //ROLE_ADMIN olmasına ragmen ADMIN kısmını anlıyor spring
 public ResponseEntity<List<Book>> getAll(){
     List<Book>list =service.getAllBooks();
     return ResponseEntity.ok(list);
 }
-@PostMapping("/new")
+    @PostMapping("/new")
     public ResponseEntity<Map<String,String>> createBook(@RequestBody @Valid Book book){
     service.createBook(book);
     Map<String ,String>map=new HashMap<>();
@@ -61,8 +61,8 @@ public ResponseEntity<List<Book>> getAll(){
     map.put("message2","oglusum kafan nasıl da minik");
     return ResponseEntity.ok(map);
 }
-@PutMapping("{id}")
-    public ResponseEntity<Map<String,String>> updateBook(@PathVariable("id") Long id,
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String,String>> updateBook(@PathVariable("id") String id,
                                                          @RequestBody BookDTO bookDTO){
         service.updateBook(id,bookDTO);
         Map<String , String>map=new HashMap<>();
@@ -92,8 +92,8 @@ Controller classında service bean imiz üzerinden işaret ettiğimiz deleteEnti
 Service katmanına gidip oluşturuyoruz .
  */
 
-@DeleteMapping("{id}")
-public ResponseEntity<Map<String,String>> deleteBook(@PathVariable("id") Long id){
+@DeleteMapping("/{id}")
+public ResponseEntity<Map<String,String>> deleteBook(@PathVariable("id") String id){
     Map<String , String>map=new HashMap<>();
     map.put("message"," Book has been deleted...");
     map.put("status","deleted");
@@ -122,9 +122,9 @@ public ResponseEntity<Map<String,String>> deleteBook(@PathVariable("id") Long id
     List<Book>list=service.getBookByType(type);
     return ResponseEntity.ok(list);
     }
-// databaseimizden dto verisi çekelim hadi bakalım
+ //databaseimizden dto verisi çekelim hadi bakalım
     @GetMapping("/bookDTO")// /bookDTO?id=1 yapısı
-    public  ResponseEntity<BookDTO> getBookDTOS(@RequestParam("id") Long id){
+    public  ResponseEntity<BookDTO> getBookDTOS(@RequestParam("id") String id){
     BookDTO bookDto=service.findBookDtoById(id);
     return ResponseEntity.ok(bookDto);
 

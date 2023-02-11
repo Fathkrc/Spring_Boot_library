@@ -29,14 +29,14 @@ public class BookService {
         repistory.save(book);
     }
 
-    public Book findById(Long id) {
+    public Book findById(String id) {
         Book book = repistory.findById(id).orElseThrow(
                 () -> new ResourceNotFoundExc("Book with " + id + " id does not exist")
         );
         return book;
     }
 
-    public void updateBook(Long id, BookDTO bookDTO) {
+    public void updateBook(String id, BookDTO bookDTO) {
         boolean isBookExist = repistory.existsById(id);
 
 
@@ -54,7 +54,7 @@ public class BookService {
 
 
 
-    public void deleteBook(Long id) {
+    public void deleteBook(String id) {
         if(!repistory.existsById(id)){
             throw new ConflictException("There is not any book with "+id+" id");
         }
@@ -83,7 +83,7 @@ public class BookService {
         return repistory.getBooksWithType(type);
     }
 
-    public BookDTO findBookDtoById(Long id) {
+    public BookDTO findBookDtoById(String id) {
         return  repistory.findBookDtoById(id).orElseThrow(
                 ()-> new ResourceNotFoundExc("Book not found with"+id+" id")
         );
